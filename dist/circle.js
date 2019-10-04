@@ -16,7 +16,7 @@ var radius = 175;
 var diameter = Math.round(Math.PI * radius * 2);
 var getOffset = function (val) {
     if (val === void 0) { val = 0; }
-    return Math.round((100 - Math.min(val, 100)) / 100 * diameter);
+    return Math.round((100 - val) / 100 * diameter);
 };
 var Circle = (function (_super) {
     __extends(Circle, _super);
@@ -28,7 +28,7 @@ var Circle = (function (_super) {
             var _a = this.props, progress = _a.progress, showPercentage = _a.showPercentage, textColor = _a.textColor, textStyle = _a.textStyle, percentSpacing = _a.percentSpacing, showPercentageSymbol = _a.showPercentageSymbol;
             if (!showPercentage)
                 return;
-            return (React.createElement("text", { style: textStyle, fill: textColor, x: radius, y: radius, textAnchor: "middle", dominantBaseline: "central" },
+            return (React.createElement("text", { style: textStyle, fill: textColor, x: "50%", y: "50%", dx: "-25", textAnchor: "middle" },
                 progress,
                 showPercentageSymbol && React.createElement("tspan", { dx: percentSpacing }, "%")));
         },
@@ -37,9 +37,9 @@ var Circle = (function (_super) {
     });
     Circle.prototype.render = function () {
         var text = this.text;
-        var _a = this.props, progress = _a.progress, size = _a.size, bgColor = _a.bgColor, progressColor = _a.progressColor, lineWidth = _a.lineWidth, animate = _a.animate, animationDuration = _a.animationDuration, roundedStroke = _a.roundedStroke, responsive = _a.responsive, onAnimationEnd = _a.onAnimationEnd;
-        var strokeDashoffset = getOffset(Math.min(progress, 100));
-        var transition = animate ? "stroke-dashoffset " + animationDuration + " ease-out" : undefined;
+        var _a = this.props, progress = Math.min(_a.progress, 100), size = _a.size, bgColor = _a.bgColor, progressColor = _a.progressColor, lineWidth = _a.lineWidth, animate = _a.animate, animationDuration = _a.animationDuration, roundedStroke = _a.roundedStroke, responsive = _a.responsive, onAnimationEnd = _a.onAnimationEnd;
+        var strokeDashoffset = getOffset(progress);
+        var transition = animate ? "stroke-dashoffset " + animationDuration + " ease-out" : null;
         var strokeLinecap = roundedStroke ? 'round' : 'butt';
         var svgSize = responsive ? '100%' : size;
         return (React.createElement("svg", { width: svgSize, height: svgSize, viewBox: "-25 -25 400 400" },
